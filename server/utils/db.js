@@ -1,15 +1,13 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-const URI="mongodb://127.0.0.1:27017/mern_admin"
-
-const connectDB=async()=>{
+const connectDB = async () => {
     try {
-        await mongoose.connect(URI)
-        console.log("Connect successfully to MongoDB");
+        await mongoose.connect(process.env.MONGODB_URI);
+        console.log("Connected successfully to MongoDB");
     } catch (error) {
-        console.error("Failed to connect MongoDB")
-        process.exit(0)
+        console.error("Failed to connect MongoDB:", error);
+        process.exit(1); // Exiting the process with a non-zero status code to indicate failure
     }
 }
 
-export default connectDB
+export default connectDB;
