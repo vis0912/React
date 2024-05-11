@@ -1,4 +1,5 @@
 import User from "../models/user-model.js"
+import bcrypt from "bcryptjs"
 
 const home = async (req, res) => {
     try {
@@ -17,11 +18,14 @@ const register = async (req, res) => {
     return res.status(400).json({msg:"Email already exists"})
   }
 
+  const saltRound= await bcrypt.genSalt(10)
+  const hashedPassword= await bcrypt.hash(password,saltRound)
+
   const newUser=await User.create({
     username,
     email,
     mobile,
-    password
+    password:hashedPassword
   })
 
   res.status(200).json({ message: "Successfully created new user", user:newUser });
