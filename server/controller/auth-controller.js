@@ -25,7 +25,11 @@ const register = async (req, res) => {
 
   res
     .status(200)
-    .json({ message: "Successfully created new user", user: newUser });
+    .json({
+      message: "Successfully created new user",
+      user: newUser,
+      token: await newUser.generateToken(),
+    });
 };
 
 const authController = { home, register };
