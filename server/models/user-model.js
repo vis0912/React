@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import errorMiddleware from "../middleware/error-middleware.js";
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -53,7 +54,7 @@ userSchema.methods.generateToken = async function () {
       },
     );
   } catch (error) {
-    console.error(error);
+    next(error);
   }
 };
 
@@ -61,7 +62,7 @@ userSchema.methods.comparePassword = async function (incomingPass) {
   try {
     return bcrypt.compare(incomingPass, this.password);
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import errorMiddleware from "./error-middleware.js";
 
 // Define validation schema
 const registerSchema = z.object({
@@ -59,10 +60,12 @@ const validate = (schema) => async (req, res, next) => {
     // Proceed to the next middleware
     next();
   } catch (error) {
-    // Handle validation errors
-    console.error(error);
-    const message = error.errors[0].message;
-    res.status(400).json({ error: message });
+    const status = 401;
+    const message = "Something wrong";
+    const extraDetails = error.errors[0].message;
+
+    const err = { status, message, extraDetails };
+    next(err);
   }
 };
 
