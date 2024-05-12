@@ -65,6 +65,6 @@ const login = async (req, res, next) => {
   }
 };
 
-const authController = { home, register, login };
+const authController = { home, register, login};
 
 export default authController;

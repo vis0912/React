@@ -50,6 +50,28 @@ const loginSchema = z.object({
     .min(8, { message: "Password must be at least 8 characters long" }),
 });
 
+const contactSchema = z.object({
+  username: z
+    .string({
+      required_error: "Name is required",
+      invalid_type_error: "Name must be a string",
+    })
+    .min(3, { message: "At least 3 characters required" })
+    .trim(),
+
+  email: z
+    .string({
+      required_error: "Email is required",
+      invalid_type_error: "Email must be a string",
+    })
+    .email({ message: "Enter a valid email address" }),
+
+  message: z.string({
+    required_error: "Message is required",
+    invalid_type_error: "Message must be a string",
+  }),
+});
+
 // Middleware for validation
 const validate = (schema) => async (req, res, next) => {
   try {
@@ -60,13 +82,14 @@ const validate = (schema) => async (req, res, next) => {
     // Proceed to the next middleware
     next();
   } catch (error) {
+    console.log(error);
+    const message = "Backend Error";
     const status = 401;
-    const message = "Something wrong";
-    const extraDetails = error.errors[0].message;
+    const extraDetails =error.errors[0].message;
 
-    const err = { status, message, extraDetails };
+    const err = { message, status, extraDetails };
     next(err);
   }
 };
 
-export { registerSchema, loginSchema, validate };
+export { registerSchema, loginSchema, contactSchema, validate };
