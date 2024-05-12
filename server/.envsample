@@ -1,1 +1,5 @@
 MONGODB_URI=mongodb+srv://vishalmpranav2003:QXhbp4buREGIqmbP@cluster0.xaqlvau.mongodb.net/mern_admin
+
+JWT_SECRET=VISHALMPRANAV
+
+JWT_EXPIRES_IN=30d
